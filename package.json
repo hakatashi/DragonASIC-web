@@ -2,8 +2,8 @@
   "name": "DragonASIC-web",
   "version": "1.0.0",
   "scripts": {
-    "build": "npm run pug",
-    "pug": "pug index.pug"
+    "html": "pug index.pug",
+    "js": "webpack"
   },
   "main": "index.js",
   "author": "Koki Takahashi <hakatasiloving@gmail.com>",
