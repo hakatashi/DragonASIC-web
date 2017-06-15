@@ -10,9 +10,23 @@ module.exports = {
 			loader: 'babel-loader',
 			exclude: /node_modules/,
 			query: {
-				presets: ['es2015', 'react'],
+				presets: [
+					['env', {
+						targets: [
+							'last 2 Chrome versions',
+						],
+					}],
+					'react',
+				],
 				plugins: ['transform-class-properties'],
 			},
+		}, {
+			test: /\.pcss$/,
+			loaders: [
+				'style-loader?sourceMap',
+				'css-loader?modules&importLoaders=1',
+				'postcss-loader?sourceMap',
+			],
 		}],
 	},
 };
