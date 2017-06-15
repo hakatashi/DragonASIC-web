@@ -2,6 +2,7 @@
   "name": "DragonASIC-web",
   "version": "1.0.0",
   "scripts": {
+    "build": "concurrently \"npm run html\" \"npm run js\"",
     "html": "pug index.pug",
     "js": "webpack"
   },
