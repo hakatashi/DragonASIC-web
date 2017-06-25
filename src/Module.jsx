@@ -37,6 +37,7 @@ class Module extends React.Component {
 
 		const distance = event.distance;
 		const angle = event.angle / 180 * Math.PI;
+		console.log(event.eventType);
 
 		if (event.eventType === INPUT_MOVE) {
 			this.setState({

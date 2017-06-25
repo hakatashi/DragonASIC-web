@@ -26,6 +26,7 @@ class App extends React.Component {
 		return (
 			<Hammer onDoubleTap={this.handleDoubleTap}>
 				<div styleName="app">
+					<div styleName="title">DragonASIC-web</div>
 					{this.state.modules.map((module) => (
 						<Module
 							key={module.uid}
