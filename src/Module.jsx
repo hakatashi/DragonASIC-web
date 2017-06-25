@@ -2,6 +2,7 @@ const React = require('react');
 const CSS = require('react-css-modules');
 const Hammer = require('react-hammerjs');
 const {INPUT_MOVE, INPUT_END} = (typeof window === 'undefined') ? {} : require('hammerjs');
+const classNames = require('classnames');
 const styles = require('./Module.pcss');
 
 class Module extends React.Component {
@@ -11,14 +12,29 @@ class Module extends React.Component {
 		this.state = {
 			x: props.initialX,
 			y: props.initialY,
+			name: 'New Module',
 			isPanning: false,
 			panDistance: null,
 			panAngle: null,
+			isWirePanning: false,
+			wirePanDistance: null,
+			wirePanAngle: null,
+			io: [{
+				direction: 'in',
+				name: 'Some Input',
+			}, {
+				direction: 'out',
+				name: 'Some Output',
+			}],
 		};
 	}
 
 	handlePan = (event) => {
 		event.preventDefault();
+
+		if (event.target !== this.node || this.state.isWirePanning) {
+			return;
+		}
 
 		const distance = event.distance;
 		const angle = event.angle / 180 * Math.PI;
@@ -35,6 +51,33 @@ class Module extends React.Component {
 				x: this.state.x + distance * Math.cos(angle),
 				y: this.state.y + distance * Math.sin(angle),
 			});
+		}
+	}
+
+	handleNameInput = (event) => {
+		this.setState({
+			name: event.target.textContent,
+		});
+	}
+
+	handleIoButtonPan = (event) => {
+		event.preventDefault();
+
+		const distance = event.distance;
+		const angle = event.angle / 180 * Math.PI;
+
+		if (event.eventType === INPUT_MOVE) {
+			this.setState({
+				isWirePanning: true,
+				wirePanDistance: distance,
+				wirePanAngle: angle,
+			});
+		} else if (event.eventType === INPUT_END) {
+			setTimeout(() => {
+				this.setState({
+					isWirePanning: false,
+				});
+			}, 0);
 		}
 	}
 
@@ -56,18 +99,38 @@ class Module extends React.Component {
 		const {x, y} = this.getCoordinates();
 
 		return (
-			<Hammer onPan={this.handlePan}>
+			<Hammer onPan={this.handlePan} options={{domEvents: true}}>
 				<div
+					ref={(node) => {
+						this.node = node;
+					}}
 					styleName="module"
 					style={{
 						transform: `translate(${x}px, ${y}px)`,
 					}}
 				>
-					<div styleName="name" contentEditable={true}>{this.props.name}</div>
+					<div
+						suppressContentEditableWarning={true}
+						onInput={this.handleNameInput}
+						styleName="name"
+						contentEditable={true}
+					>
+						{this.state.name}
+					</div>
+					<div>
+						{this.state.io.map((io) => (
+							<div key={io.name} styleName="io">
+								<div styleName="io-name">{io.name}</div>
+								<Hammer onPan={this.handleIoButtonPan} options={{domEvents: true}}>
+									<div styleName={classNames('io-button', io.direction)}/>
+								</Hammer>
+							</div>
+						))}
+					</div>
 				</div>
 			</Hammer>
 		);
 	}
 }
 
-module.exports = CSS(Module, styles);
+module.exports = CSS(Module, styles, {allowMultiple: true});

@@ -13,8 +13,6 @@ class App extends React.Component {
 		};
 	}
 	handleDoubleTap = (event) => {
-		console.log(event);
-
 		this.setState({
 			modules: this.state.modules.concat([{
 				uid: Math.floor(Math.random() * 1e10).toString(),
@@ -33,7 +31,6 @@ class App extends React.Component {
 							key={module.uid}
 							initialX={module.initialX}
 							initialY={module.initialY}
-							name="Test Module"
 							onPan={this.handlePanModule}
 						/>
 					))}
@@ -43,4 +40,4 @@ class App extends React.Component {
 	}
 }
 
-module.exports = CSS(App, styles);
+module.exports = CSS(App, styles, {allowMultiple: true});
