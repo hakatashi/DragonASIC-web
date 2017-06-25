@@ -49,6 +49,16 @@ class Io extends React.Component {
 
 			this.props.onPanningStateChange(true);
 		} else if (event.eventType === INPUT_END) {
+			if (this.props.activeButton === null) {
+				this.setState({
+					isPanning: false,
+					panX: 0,
+					panY: 0,
+				});
+
+				return;
+			}
+
 			this.setState({
 				isPanning: false,
 			});
@@ -77,7 +87,12 @@ class Io extends React.Component {
 		return (
 			<div styleName={classNames('io', this.props.direction)}>
 				<div styleName="name">{this.props.name}</div>
-				<Wire direction={this.props.direction} x={this.state.panX} y={this.state.panY}/>
+				<Wire
+					direction={this.props.direction}
+					x={this.state.panX}
+					y={this.state.panY}
+					isPanning={this.state.isPanning}
+				/>
 				<Hammer onPan={this.handlePan} options={{domEvents: true}}>
 					<div
 						ref={(node) => {

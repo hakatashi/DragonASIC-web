@@ -20,6 +20,9 @@ class Wire extends React.Component {
 				<path
 					styleName="path"
 					d={this.getPath()}
+					style={{
+						pointerEvents: this.props.isPanning ? 'none' : 'initial',
+					}}
 				/>
 			</svg>
 		);
