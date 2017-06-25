@@ -106,6 +106,9 @@ class Module extends React.Component {
 								name={io.name}
 								direction={io.direction}
 								onPanningStateChange={this.handleIoPaninngStateChange}
+								onButtonMouseEnter={this.props.onButtonMouseEnter}
+								onButtonMouseLeave={this.props.onButtonMouseLeave}
+								activeButton={this.props.activeButton}
 							/>
 						))}
 					</div>

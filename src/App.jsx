@@ -10,8 +10,10 @@ class App extends React.Component {
 
 		this.state = {
 			modules: [],
+			activeButton: null,
 		};
 	}
+
 	handleDoubleTap = (event) => {
 		this.setState({
 			modules: this.state.modules.concat([{
@@ -19,6 +21,18 @@ class App extends React.Component {
 				initialX: event.center.x,
 				initialY: event.center.y,
 			}]),
+		});
+	}
+
+	handleButtonMouseEnter = (event) => {
+		this.setState({
+			activeButton: event.target,
+		});
+	}
+
+	handleButtonMouseLeave = (event) => {
+		this.setState({
+			activeButton: null,
 		});
 	}
 
@@ -33,6 +47,9 @@ class App extends React.Component {
 							initialX={module.initialX}
 							initialY={module.initialY}
 							onPan={this.handlePanModule}
+							onButtonMouseEnter={this.handleButtonMouseEnter}
+							onButtonMouseLeave={this.handleButtonMouseLeave}
+							activeButton={this.state.activeButton}
 						/>
 					))}
 				</div>

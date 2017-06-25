@@ -15,6 +15,7 @@ class Io extends React.Component {
 			isPanning: false,
 			panX: 0,
 			panY: 0,
+			isButtonActive: false,
 		};
 	}
 
@@ -27,6 +28,19 @@ class Io extends React.Component {
 		const y = distance * Math.sin(angle);
 
 		if (event.eventType === INPUT_MOVE) {
+			if (this.props.activeButton !== null) {
+				const {top: topA, left: leftA} = this.buttonNode.getBoundingClientRect();
+				const {top: topB, left: leftB} = this.props.activeButton.getBoundingClientRect();
+
+				this.setState({
+					isPanning: true,
+					panX: leftB - leftA,
+					panY: topB - topA,
+				});
+
+				return;
+			}
+
 			this.setState({
 				isPanning: true,
 				panX: x,
@@ -45,13 +59,34 @@ class Io extends React.Component {
 		}
 	}
 
+	handleButtonMouseEnter = (event) => {
+		this.setState({
+			isButtonActive: true,
+		});
+		this.props.onButtonMouseEnter(event);
+	}
+
+	handleButtonMouseLeave = (event) => {
+		this.setState({
+			isButtonActive: false,
+		});
+		this.props.onButtonMouseLeave(event);
+	}
+
 	render() {
 		return (
 			<div styleName={classNames('io', this.props.direction)}>
 				<div styleName="name">{this.props.name}</div>
 				<Wire direction={this.props.direction} x={this.state.panX} y={this.state.panY}/>
 				<Hammer onPan={this.handlePan} options={{domEvents: true}}>
-					<div styleName="button"/>
+					<div
+						ref={(node) => {
+							this.buttonNode = node;
+						}}
+						styleName={classNames('button', {active: this.state.isButtonActive})}
+						onMouseEnter={this.handleButtonMouseEnter}
+						onMouseLeave={this.handleButtonMouseLeave}
+					/>
 				</Hammer>
 			</div>
 		);
