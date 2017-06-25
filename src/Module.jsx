@@ -31,13 +31,12 @@ class Module extends React.Component {
 	handlePan = (event) => {
 		event.preventDefault();
 
-		if (event.target !== this.node || this.state.isWirePanning) {
+		if (this.state.isWirePanning) {
 			return;
 		}
 
 		const distance = event.distance;
 		const angle = event.angle / 180 * Math.PI;
-		console.log(event.eventType);
 
 		if (event.eventType === INPUT_MOVE) {
 			this.setState({
