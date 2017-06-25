@@ -1,0 +1,50 @@
+.io {
+	position: relative;
+	line-height: 1.5em;
+	padding: 0 1em;
+	$border-width: 3px;
+
+	&:not(:last-child) {
+		margin-bottom: 0.5em;
+	}
+
+	.name {
+
+	}
+
+	.button {
+		position: absolute;
+		top: 50%;
+
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+
+		background: white;
+		border: $border-width solid #333;
+
+		cursor: pointer;
+	}
+
+	&.in {
+		.name {
+			text-align: left;
+		}
+
+		.button {
+			right: 100%;
+			transform: translate(50%, -50%) translateX(calc(-$border-width / 2));
+		}
+	}
+
+	&.out {
+		.name {
+			text-align: right;
+		}
+
+		.button {
+			left: 100%;
+			transform: translate(-50%, -50%) translateX(calc($border-width / 2));
+		}
+	}
+}

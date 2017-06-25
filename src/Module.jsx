@@ -2,7 +2,8 @@ const React = require('react');
 const CSS = require('react-css-modules');
 const Hammer = require('react-hammerjs');
 const {INPUT_MOVE, INPUT_END} = (typeof window === 'undefined') ? {} : require('hammerjs');
-const classNames = require('classnames');
+const Io = require('./Io.jsx');
+
 const styles = require('./Module.pcss');
 
 class Module extends React.Component {
@@ -13,12 +14,10 @@ class Module extends React.Component {
 			x: props.initialX,
 			y: props.initialY,
 			name: 'New Module',
+			isWirePanning: false,
 			isPanning: false,
 			panDistance: null,
 			panAngle: null,
-			isWirePanning: false,
-			wirePanDistance: null,
-			wirePanAngle: null,
 			io: [{
 				direction: 'in',
 				name: 'Some Input',
@@ -60,25 +59,8 @@ class Module extends React.Component {
 		});
 	}
 
-	handleIoButtonPan = (event) => {
-		event.preventDefault();
-
-		const distance = event.distance;
-		const angle = event.angle / 180 * Math.PI;
-
-		if (event.eventType === INPUT_MOVE) {
-			this.setState({
-				isWirePanning: true,
-				wirePanDistance: distance,
-				wirePanAngle: angle,
-			});
-		} else if (event.eventType === INPUT_END) {
-			setTimeout(() => {
-				this.setState({
-					isWirePanning: false,
-				});
-			}, 0);
-		}
+	handleIoPaninngStateChange = (isWirePanning) => {
+		this.setState({isWirePanning});
 	}
 
 	getCoordinates = () => {
@@ -119,12 +101,12 @@ class Module extends React.Component {
 					</div>
 					<div>
 						{this.state.io.map((io) => (
-							<div key={io.name} styleName="io">
-								<div styleName="io-name">{io.name}</div>
-								<Hammer onPan={this.handleIoButtonPan} options={{domEvents: true}}>
-									<div styleName={classNames('io-button', io.direction)}/>
-								</Hammer>
-							</div>
+							<Io
+								key={io.name}
+								name={io.name}
+								direction={io.direction}
+								onPanningStateChange={this.handleIoPaninngStateChange}
+							/>
 						))}
 					</div>
 				</div>

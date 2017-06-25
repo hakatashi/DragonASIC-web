@@ -1,6 +1,6 @@
 .module {
 	width: 200px;
-	padding-bottom: 5em;
+	padding: 0.5em 0;
 
 	position: absolute;
 
@@ -11,43 +11,9 @@
 	background: white;
 
 	.name {
-		line-height: 2em;
+		line-height: 1.5em;
 		font-size: 18px;
 		font-weight: bold;
 		text-align: center;
-	}
-
-	.io {
-		position: relative;
-		line-height: 1.5em;
-		padding: 0 0.5em;
-
-		.io-name {
-
-		}
-
-		.io-button {
-			position: absolute;
-			top: 50%;
-
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-
-			background: white;
-			border: $border-width solid #333;
-
-			cursor: pointer;
-
-			&.in {
-				right: 100%;
-				transform: translate(50%, -50%) translateX(calc(-$border-width / 2));
-			}
-
-			&.out {
-				left: 100%;
-				transform: translate(-50%, -50%) translateX(calc($border-width / 2));
-			}
-		}
 	}
 }
