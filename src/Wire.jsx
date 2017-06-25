@@ -11,8 +11,11 @@ class Wire extends React.Component {
 
 	getPath = () => Path()
 		.moveTo(0, 0)
-		.relative().lineTo(this.props.x, this.props.y)
-		.end()
+		.relative().curveTo(
+			this.props.x / 2, 0,
+			this.props.x / 2, this.props.y,
+			this.props.x, this.props.y)
+		.end();
 
 	render() {
 		return (
