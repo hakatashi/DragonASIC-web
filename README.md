@@ -1,7 +1,7 @@
 # DragonASIC (仮)
 
 [![Build Status][travis-image]][travis-url]
-[![Greenkeeper badge][greenkeeper-image][greenkeeper-url]
+[![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
 
 [travis-url]: https://travis-ci.org/hakatashi/DragonASIC-web
 [travis-image]: https://travis-ci.org/hakatashi/DragonASIC-web.svg?branch=master
