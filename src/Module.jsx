@@ -53,9 +53,9 @@ class Module extends React.Component {
 		}
 	}
 
-	handleNameInput = (event) => {
+	handleNameChange = (event) => {
 		this.setState({
-			name: event.target.textContent,
+			name: event.target.value,
 		});
 	}
 
@@ -91,14 +91,11 @@ class Module extends React.Component {
 						transform: `translate(${x}px, ${y}px)`,
 					}}
 				>
-					<div
-						suppressContentEditableWarning={true}
-						onInput={this.handleNameInput}
+					<input
+						onChange={this.handleNameChange}
 						styleName="name"
-						contentEditable={true}
-					>
-						{this.state.name}
-					</div>
+						value={this.state.name}
+					/>
 					<div>
 						{this.state.io.map((io) => (
 							<Io
