@@ -26,6 +26,9 @@ install:
 script:
   - yarn build
 
+after_success:
+  - bash bin/deploy.sh
+
 cache:
   yarn: true
   directories:
