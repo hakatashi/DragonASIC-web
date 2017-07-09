@@ -6,28 +6,42 @@ module.exports = {
 	},
 	devtool: 'cheap-module-eval-source-map',
 	module: {
-		loaders: [{
+		rules: [{
 			test: /\.jsx$/,
-			loader: 'babel-loader',
-			exclude: /node_modules/,
-			query: {
-				presets: [
-					['env', {
-						targets: [
-							'last 2 Chrome versions',
-						],
-					}],
-					'react',
-				],
-				plugins: ['transform-class-properties'],
+			use: {
+				loader: 'babel-loader',
+				options: {
+					presets: [
+						['env', {
+							targets: [
+								'last 2 Chrome versions',
+							],
+						}],
+						'react',
+					],
+					plugins: ['transform-class-properties'],
+				},
 			},
+			exclude: /node_modules/,
 		}, {
 			test: /\.pcss$/,
-			loaders: [
-				'style-loader?sourceMap',
-				'css-loader?modules&importLoaders=1',
-				'postcss-loader?sourceMap',
-			],
+			use: [{
+				loader: 'style-loader',
+				options: {
+					sourceMap: true,
+				},
+			}, {
+				loader: 'css-loader',
+				options: {
+					modules: true,
+					importLoaders: 1,
+				},
+			}, {
+				loader: 'postcss-loader',
+				options: {
+					sourceMap: true,
+				},
+			}],
 		}],
 	},
 };
