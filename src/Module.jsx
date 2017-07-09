@@ -81,36 +81,43 @@ class Module extends React.Component {
 		const {x, y} = this.getCoordinates();
 
 		return (
-			<Hammer onPan={this.handlePan} options={{domEvents: true}}>
-				<div
-					ref={(node) => {
-						this.node = node;
-					}}
-					styleName="module"
-					style={{
-						transform: `translate(${x}px, ${y}px)`,
-					}}
-				>
-					<input
-						onChange={this.handleNameChange}
-						styleName="name"
-						value={this.state.name}
-					/>
-					<div>
-						{this.state.io.map((io) => (
-							<Io
-								key={io.name}
-								name={io.name}
-								direction={io.direction}
-								onPanningStateChange={this.handleIoPaninngStateChange}
-								onButtonMouseEnter={this.props.onButtonMouseEnter}
-								onButtonMouseLeave={this.props.onButtonMouseLeave}
-								activeButton={this.props.activeButton}
-							/>
-						))}
+			<div
+				ref={(node) => {
+					this.node = node;
+				}}
+				styleName="module"
+				style={{
+					transform: `translate(${x}px, ${y}px)`,
+				}}
+			>
+				<Hammer onPan={this.handlePan} options={{domEvents: true}}>
+					<div styleName="knob">
+						<svg viewBox="0 0 400 100" styleName="dots">
+							<circle cx="50" cy="50" r="50"/>
+							<circle cx="200" cy="50" r="50"/>
+							<circle cx="350" cy="50" r="50"/>
+						</svg>
 					</div>
+				</Hammer>
+				<input
+					onChange={this.handleNameChange}
+					styleName="name"
+					value={this.state.name}
+				/>
+				<div>
+					{this.state.io.map((io) => (
+						<Io
+							key={io.name}
+							name={io.name}
+							direction={io.direction}
+							onPanningStateChange={this.handleIoPaninngStateChange}
+							onButtonMouseEnter={this.props.onButtonMouseEnter}
+							onButtonMouseLeave={this.props.onButtonMouseLeave}
+							activeButton={this.props.activeButton}
+						/>
+					))}
 				</div>
-			</Hammer>
+			</div>
 		);
 	}
 }

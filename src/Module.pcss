@@ -1,6 +1,6 @@
 .module {
 	width: 200px;
-	padding: 0.5em 0;
+	padding: 0 0 0.5em;
 
 	position: absolute;
 
@@ -10,10 +10,31 @@
 
 	background: white;
 
+	.knob {
+		height: 1em;
+
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+
+		cursor: grab;
+
+		.dots {
+			height: 40%;
+			margin-right: 0.5em;
+
+			& > circle {
+				fill: #333;
+			}
+		}
+	}
+
 	.name {
 		line-height: 1.5em;
 		font-size: 18px;
 		font-weight: bold;
 		text-align: center;
+		border: none;
+		width: 100%;
 	}
 }
