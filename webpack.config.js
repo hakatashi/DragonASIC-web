@@ -4,6 +4,7 @@ module.exports = {
 		path: __dirname,
 		filename: 'index.js',
 	},
+	devtool: 'cheap-module-eval-source-map',
 	module: {
 		loaders: [{
 			test: /\.jsx$/,
