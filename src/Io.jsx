@@ -97,9 +97,8 @@ class Io extends React.Component {
 		this.props.onButtonMouseLeave(event);
 	}
 
-	handleResizeKnob = ({bounds: offset}) => {
-		console.log(offset);
-		this.setState({knobDimensions: offset});
+	handleResizeKnob = ({bounds}) => {
+		this.setState({knobDimensions: bounds});
 	}
 
 	render() {
@@ -125,7 +124,7 @@ class Io extends React.Component {
 					<Measure bounds={true} onResize={this.handleResizeKnob}>
 						{({measureRef, measure}) => {
 							this.measure = measure;
-							return <div ref={measureRef}/>;
+							return <div className="measure-area" ref={measureRef}/>;
 						}}
 					</Measure>
 				</div>
