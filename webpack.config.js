@@ -19,10 +19,12 @@ module.exports = {
 						}],
 						'react',
 					],
-					plugins: ['transform-class-properties'],
+					plugins: [
+						'transform-class-properties',
+					],
 				},
 			},
-			exclude: /node_modules/,
+			exclude: /node_modules\/(?!react-measure)/,
 		}, {
 			test: /\.pcss$/,
 			use: [{

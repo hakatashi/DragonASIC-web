@@ -1,6 +1,7 @@
 const React = require('react');
 const CSS = require('react-css-modules');
 const Hammer = require('react-hammerjs');
+const {default: Measure} = require('react-measure');
 const {INPUT_MOVE, INPUT_END} = (typeof window === 'undefined') ? {} : require('hammerjs');
 const classNames = require('classnames');
 const Wire = require('./Wire.jsx');
@@ -16,7 +17,20 @@ class Io extends React.Component {
 			panX: 0,
 			panY: 0,
 			isButtonActive: false,
+			knobDimensions: null,
 		};
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.isModulePanning === true && nextProps.isModulePanning === false) {
+			this.handleModulePanEnd();
+		}
+	}
+
+	handleModulePanEnd = () => {
+		if (this.measure) {
+			this.measure();
+		}
 	}
 
 	handlePan = (event) => {
@@ -29,7 +43,7 @@ class Io extends React.Component {
 
 		if (event.eventType === INPUT_MOVE) {
 			if (this.props.activeButton !== null) {
-				const {top: topA, left: leftA} = this.buttonNode.getBoundingClientRect();
+				const {top: topA, left: leftA} = this.state.knobDimensions;
 				const {top: topB, left: leftB} = this.props.activeButton.getBoundingClientRect();
 
 				this.setState({
@@ -83,26 +97,38 @@ class Io extends React.Component {
 		this.props.onButtonMouseLeave(event);
 	}
 
+	handleResizeKnob = ({bounds: offset}) => {
+		console.log(offset);
+		this.setState({knobDimensions: offset});
+	}
+
 	render() {
 		return (
 			<div styleName={classNames('io', this.props.direction)}>
-				<div styleName="name">{this.props.name}</div>
+				<div styleName={classNames('name', this.props.direction)}>{this.props.name}</div>
 				<Wire
 					direction={this.props.direction}
 					x={this.state.panX}
 					y={this.state.panY}
 					isPanning={this.state.isPanning}
 				/>
-				<Hammer onPan={this.handlePan} options={{domEvents: true}}>
-					<div
-						ref={(node) => {
-							this.buttonNode = node;
+				<div
+					styleName={classNames('knob', this.props.direction, {
+						active: this.state.isButtonActive,
+					})}
+					onMouseEnter={this.handleButtonMouseEnter}
+					onMouseLeave={this.handleButtonMouseLeave}
+				>
+					<Hammer onPan={this.handlePan} options={{domEvents: true}}>
+						<div styleName="click-area"/>
+					</Hammer>
+					<Measure bounds={true} onResize={this.handleResizeKnob}>
+						{({measureRef, measure}) => {
+							this.measure = measure;
+							return <div ref={measureRef}/>;
 						}}
-						styleName={classNames('button', {active: this.state.isButtonActive})}
-						onMouseEnter={this.handleButtonMouseEnter}
-						onMouseLeave={this.handleButtonMouseLeave}
-					/>
-				</Hammer>
+					</Measure>
+				</div>
 			</div>
 		);
 	}
