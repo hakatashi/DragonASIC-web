@@ -9,46 +9,53 @@
 	}
 
 	.name {
+		&.in {
+			text-align: left;
+		}
 
+		&.out {
+			text-align: right;
+		}
 	}
 
-	.button {
+	.knob {
 		position: absolute;
 		top: 50%;
 
 		width: 10px;
 		height: 10px;
 		border-radius: 50%;
+		overflow: hidden;
 
 		background: white;
 		border: $border-width solid #333;
 
-		cursor: pointer;
-
 		&.active {
 			border-color: red;
 		}
-	}
 
-	&.in {
-		.name {
-			text-align: left;
-		}
-
-		.button {
+		&.in {
 			right: 100%;
 			transform: translate(50%, -50%) translateX(calc(-$border-width / 2));
 		}
-	}
 
-	&.out {
-		.name {
-			text-align: right;
-		}
-
-		.button {
+		&.out {
 			left: 100%;
 			transform: translate(-50%, -50%) translateX(calc($border-width / 2));
 		}
+	}
+
+	.click-area {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+
+		cursor: pointer;
+	}
+
+	:global(.measure-area) {
+		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 }
