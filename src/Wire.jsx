@@ -8,20 +8,38 @@ class Wire extends React.Component {
 	constructor(props, state) {
 		super(props, state);
 
-		this.state = {
-			startX: this.props.mode === 'relative'
-				? 0
-				: this.props.start.dimension.left + this.props.start.dimension.width / 2,
-			startY: this.props.mode === 'relative'
-				? 0
-				: this.props.start.dimension.top + this.props.start.dimension.height / 2,
-			endX: this.props.mode === 'relative'
-				? this.props.x
-				: this.props.end.dimension.left + this.props.start.dimension.width / 2,
-			endY: this.props.mode === 'relative'
-				? this.props.y
-				: this.props.end.dimension.top + this.props.start.dimension.height / 2,
-		};
+		if (this.props.mode === 'relative') {
+			this.state = {
+				startX: 0,
+				startY: 0,
+				endX: this.props.x,
+				endY: this.props.y,
+			};
+		} else {
+			this.state = {
+				startDimension: this.props.start.dimension,
+				endDimension: this.props.end.dimension,
+			};
+
+			Object.assign(this.state, this.recalculateAbsoluteDimensions());
+		}
+
+		if (this.props.mode === 'absolute') {
+			this.props.start.emitter.on('resize', (newDimension) => {
+				this.setState({
+					startDimension: newDimension,
+				});
+
+				Object.assign(this.state, this.recalculateAbsoluteDimensions());
+			});
+			this.props.end.emitter.on('resize', (newDimension) => {
+				this.setState({
+					endDimension: newDimension,
+				});
+
+				Object.assign(this.state, this.recalculateAbsoluteDimensions());
+			});
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -33,13 +51,22 @@ class Wire extends React.Component {
 		}
 	}
 
-	getPath = () => Path()
-		.moveTo(this.state.startX, this.state.startY)
-		.relative().curveTo(
-			(this.state.endX - this.state.startX) / 2, 0,
-			(this.state.endX - this.state.startX) / 2, this.state.endY - this.state.startY,
-			this.state.endX - this.state.startX, this.state.endY - this.state.startY)
-		.end();
+	recalculateAbsoluteDimensions = () => ({
+		startX: this.state.startDimension.left + this.state.startDimension.width / 2,
+		startY: this.state.startDimension.top + this.state.startDimension.height / 2,
+		endX: this.state.endDimension.left + this.state.endDimension.width / 2,
+		endY: this.state.endDimension.top + this.state.endDimension.height / 2,
+	})
+
+	getPath = () => (
+		Path()
+			.moveTo(this.state.startX, this.state.startY)
+			.relative().curveTo(
+				(this.state.endX - this.state.startX) / 2, 0,
+				(this.state.endX - this.state.startX) / 2, this.state.endY - this.state.startY,
+				this.state.endX - this.state.startX, this.state.endY - this.state.startY)
+			.end()
+	);
 
 	render() {
 		return (

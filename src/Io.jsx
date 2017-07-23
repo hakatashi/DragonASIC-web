@@ -25,12 +25,12 @@ class Io extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.isModulePanning === true && nextProps.isModulePanning === false) {
-			this.handleModulePanEnd();
+		if (this.props.modulePanCount !== nextProps.modulePanCount) {
+			this.handleModulePan();
 		}
 	}
 
-	handleModulePanEnd = () => {
+	handleModulePan = () => {
 		if (this.measure) {
 			this.measure();
 		}
@@ -111,6 +111,7 @@ class Io extends React.Component {
 
 	handleResizeKnob = ({bounds}) => {
 		this.setState({knobDimensions: bounds});
+		this.emitter.emit('resize', bounds);
 	}
 
 	render() {
