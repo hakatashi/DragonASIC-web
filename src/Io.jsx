@@ -45,7 +45,8 @@ class Io extends React.Component {
 		const y = distance * Math.sin(angle);
 
 		if (event.eventType === INPUT_MOVE) {
-			if (this.props.activeKnob !== null) {
+			if (this.props.activeKnob !== null &&
+				this.props.activeKnob.direction !== this.props.direction) {
 				const {top: topA, left: leftA} = this.state.knobDimensions;
 				const {top: topB, left: leftB} = this.props.activeKnob.dimension;
 
@@ -72,21 +73,20 @@ class Io extends React.Component {
 				panY: 0,
 			});
 
-			if (this.props.activeKnob === null) {
-				return;
+			if (this.props.activeKnob !== null &&
+				this.props.activeKnob.direction !== this.props.direction) {
+				this.props.onCreateWire({
+					start: {
+						dimension: this.state.knobDimensions,
+						emitter: this.emitter,
+					},
+					end: this.props.activeKnob,
+				});
+
+				setTimeout(() => {
+					this.props.onPanningStateChange(false);
+				}, 0);
 			}
-
-			this.props.onCreateWire({
-				start: {
-					dimension: this.state.knobDimensions,
-					emitter: this.emitter,
-				},
-				end: this.props.activeKnob,
-			});
-
-			setTimeout(() => {
-				this.props.onPanningStateChange(false);
-			}, 0);
 		}
 	}
 
@@ -96,6 +96,7 @@ class Io extends React.Component {
 		});
 
 		this.props.onKnobMouseEnter({
+			direction: this.props.direction,
 			dimension: this.state.knobDimensions,
 			emitter: this.emitter,
 		});
