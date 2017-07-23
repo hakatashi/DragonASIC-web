@@ -1,8 +1,15 @@
 .wire {
 	position: absolute;
-	top: 50%;
 	width: 1px;
 	height: 1px;
+
+	&.relative {
+		top: 50%;
+	}
+
+	&.absolute {
+		position: absolute;
+	}
 
 	&.in {
 		right: 100%;
