@@ -18,6 +18,11 @@ class Module extends React.Component {
 			isPanning: false,
 			panDistance: null,
 			panAngle: null,
+			options: [{
+				type: 'check',
+				name: 'Some Option',
+				checked: false,
+			}],
 			io: [{
 				direction: 'in',
 				name: 'Some Input',
@@ -66,6 +71,16 @@ class Module extends React.Component {
 		this.setState({isWirePanning});
 	}
 
+	handleInputChange = (event) => {
+		this.setState({
+			options: this.state.options.map((option) => (
+				option.name === event.target.name
+					? Object.assign(option, {checked: event.target.checked})
+					: option
+			)),
+		});
+	}
+
 	getCoordinates = () => {
 		if (this.state.isPanning) {
 			return {
@@ -107,6 +122,25 @@ class Module extends React.Component {
 					styleName="name"
 					value={this.state.name}
 				/>
+				<div styleName="options">
+					{this.state.options.map((option) => (
+						<div
+							key={option.name}
+							name={option.name}
+							styleName="option"
+						>
+							<label>
+								<input
+									name={option.name}
+									type="checkbox"
+									checked={option.checked}
+									onChange={this.handleInputChange}
+								/>
+								{option.name}
+							</label>
+						</div>
+					))}
+				</div>
 				<div>
 					{this.state.io.map((io) => (
 						<Io
