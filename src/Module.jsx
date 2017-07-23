@@ -25,6 +25,7 @@ class Module extends React.Component {
 				direction: 'out',
 				name: 'Some Output',
 			}],
+			panCount: 0,
 		};
 	}
 
@@ -41,12 +42,14 @@ class Module extends React.Component {
 		if (event.eventType === INPUT_MOVE) {
 			this.setState({
 				isPanning: true,
+				panCount: this.state.panCount + 1,
 				panDistance: distance,
 				panAngle: angle,
 			});
 		} else if (event.eventType === INPUT_END) {
 			this.setState({
 				isPanning: false,
+				panCount: this.state.panCount + 1,
 				x: this.state.x + distance * Math.cos(angle),
 				y: this.state.y + distance * Math.sin(angle),
 			});
@@ -110,7 +113,7 @@ class Module extends React.Component {
 							key={io.name}
 							name={io.name}
 							direction={io.direction}
-							isModulePanning={this.state.isPanning}
+							modulePanCount={this.state.panCount}
 							onPanningStateChange={this.handleIoPaninngStateChange}
 							onKnobMouseEnter={this.props.onKnobMouseEnter}
 							onKnobMouseLeave={this.props.onKnobMouseLeave}
