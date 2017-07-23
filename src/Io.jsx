@@ -1,3 +1,4 @@
+const EventEmitter = require('events');
 const React = require('react');
 const CSS = require('react-css-modules');
 const Hammer = require('react-hammerjs');
@@ -12,11 +13,13 @@ class Io extends React.Component {
 	constructor(props, state) {
 		super(props, state);
 
+		this.emitter = new EventEmitter();
+
 		this.state = {
 			isPanning: false,
 			panX: 0,
 			panY: 0,
-			isButtonActive: false,
+			isKnobActive: false,
 			knobDimensions: null,
 		};
 	}
@@ -42,9 +45,9 @@ class Io extends React.Component {
 		const y = distance * Math.sin(angle);
 
 		if (event.eventType === INPUT_MOVE) {
-			if (this.props.activeButton !== null) {
+			if (this.props.activeKnob !== null) {
 				const {top: topA, left: leftA} = this.state.knobDimensions;
-				const {top: topB, left: leftB} = this.props.activeButton.getBoundingClientRect();
+				const {top: topB, left: leftB} = this.props.activeKnob.dimension;
 
 				this.setState({
 					isPanning: true,
@@ -63,7 +66,7 @@ class Io extends React.Component {
 
 			this.props.onPanningStateChange(true);
 		} else if (event.eventType === INPUT_END) {
-			if (this.props.activeButton === null) {
+			if (this.props.activeKnob === null) {
 				this.setState({
 					isPanning: false,
 					panX: 0,
@@ -77,24 +80,31 @@ class Io extends React.Component {
 				isPanning: false,
 			});
 
+			this.props.onCreateWire();
+
 			setTimeout(() => {
 				this.props.onPanningStateChange(false);
 			}, 0);
 		}
 	}
 
-	handleButtonMouseEnter = (event) => {
+	handleKnobMouseEnter = () => {
 		this.setState({
-			isButtonActive: true,
+			isKnobActive: true,
 		});
-		this.props.onButtonMouseEnter(event);
+
+		this.props.onKnobMouseEnter({
+			dimension: this.state.knobDimensions,
+			emitter: this.emitter,
+		});
 	}
 
-	handleButtonMouseLeave = (event) => {
+	handleKnobMouseLeave = () => {
 		this.setState({
-			isButtonActive: false,
+			isKnobActive: false,
 		});
-		this.props.onButtonMouseLeave(event);
+
+		this.props.onKnobMouseLeave();
 	}
 
 	handleResizeKnob = ({bounds}) => {
@@ -113,10 +123,10 @@ class Io extends React.Component {
 				/>
 				<div
 					styleName={classNames('knob', this.props.direction, {
-						active: this.state.isButtonActive,
+						active: this.state.isKnobActive,
 					})}
-					onMouseEnter={this.handleButtonMouseEnter}
-					onMouseLeave={this.handleButtonMouseLeave}
+					onMouseEnter={this.handleKnobMouseEnter}
+					onMouseLeave={this.handleKnobMouseLeave}
 				>
 					<Hammer onPan={this.handlePan} options={{domEvents: true}}>
 						<div styleName="click-area"/>

@@ -10,7 +10,8 @@ class App extends React.Component {
 
 		this.state = {
 			modules: [],
-			activeButton: null,
+			wires: [],
+			activeKnob: null,
 		};
 	}
 
@@ -24,16 +25,19 @@ class App extends React.Component {
 		});
 	}
 
-	handleButtonMouseEnter = (event) => {
+	handleKnobMouseEnter = (knob) => {
 		this.setState({
-			activeButton: event.target,
+			activeKnob: knob,
 		});
 	}
 
-	handleButtonMouseLeave = (event) => {
+	handleKnobMouseLeave = () => {
 		this.setState({
-			activeButton: null,
+			activeKnob: null,
 		});
+	}
+
+	handleCreateWire = () => {
 	}
 
 	render() {
@@ -47,9 +51,10 @@ class App extends React.Component {
 							initialX={module.initialX}
 							initialY={module.initialY}
 							onPan={this.handlePanModule}
-							onButtonMouseEnter={this.handleButtonMouseEnter}
-							onButtonMouseLeave={this.handleButtonMouseLeave}
-							activeButton={this.state.activeButton}
+							onKnobMouseEnter={this.handleKnobMouseEnter}
+							onKnobMouseLeave={this.handleKnobMouseLeave}
+							onCreateWire={this.handleCreateWire}
+							activeKnob={this.state.activeKnob}
 						/>
 					))}
 				</div>
