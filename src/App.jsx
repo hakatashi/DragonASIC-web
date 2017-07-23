@@ -3,6 +3,7 @@ const CSS = require('react-css-modules');
 const Hammer = require('react-hammerjs');
 const styles = require('./App.pcss');
 const Module = require('./Module.jsx');
+const Wire = require('./Wire.jsx');
 
 class App extends React.Component {
 	constructor() {
@@ -37,7 +38,14 @@ class App extends React.Component {
 		});
 	}
 
-	handleCreateWire = () => {
+	handleCreateWire = ({start, end}) => {
+		this.setState({
+			wires: this.state.wires.concat([{
+				uid: Math.floor(Math.random() * 1e10).toString(),
+				start,
+				end,
+			}]),
+		});
 	}
 
 	render() {
@@ -45,6 +53,15 @@ class App extends React.Component {
 			<Hammer onDoubleTap={this.handleDoubleTap}>
 				<div styleName="app">
 					<div styleName="title">DragonASIC-web</div>
+					{this.state.wires.map((wire) => (
+						<Wire
+							key={wire.uid}
+							mode="absolute"
+							start={wire.start}
+							end={wire.end}
+							isPannig={false}
+						/>
+					))}
 					{this.state.modules.map((module) => (
 						<Module
 							key={module.uid}

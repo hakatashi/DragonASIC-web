@@ -66,21 +66,23 @@ class Io extends React.Component {
 
 			this.props.onPanningStateChange(true);
 		} else if (event.eventType === INPUT_END) {
-			if (this.props.activeKnob === null) {
-				this.setState({
-					isPanning: false,
-					panX: 0,
-					panY: 0,
-				});
+			this.setState({
+				isPanning: false,
+				panX: 0,
+				panY: 0,
+			});
 
+			if (this.props.activeKnob === null) {
 				return;
 			}
 
-			this.setState({
-				isPanning: false,
+			this.props.onCreateWire({
+				start: {
+					dimension: this.state.knobDimensions,
+					emitter: this.emitter,
+				},
+				end: this.props.activeKnob,
 			});
-
-			this.props.onCreateWire();
 
 			setTimeout(() => {
 				this.props.onPanningStateChange(false);
@@ -117,6 +119,7 @@ class Io extends React.Component {
 				<div styleName={classNames('name', this.props.direction)}>{this.props.name}</div>
 				<Wire
 					direction={this.props.direction}
+					mode="relative"
 					x={this.state.panX}
 					y={this.state.panY}
 					isPanning={this.state.isPanning}
