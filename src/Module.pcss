@@ -10,6 +10,30 @@
 
 	background: white;
 
+	.options {
+		margin-bottom: 0.5em;
+	}
+
+	.option {
+		line-height: 1.5em;
+		padding: 0 1em;
+
+		&, & label, & input {
+			cursor: pointer;
+		}
+
+		label {
+			display: block;
+		}
+
+		input[type=checkbox] {
+			width: 1em;
+			height: 1em;
+			vertical-align: middle;
+			margin-right: 0.2em;
+		}
+	}
+
 	.knob {
 		height: 1em;
 
