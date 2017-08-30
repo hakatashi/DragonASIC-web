@@ -1,9 +1,10 @@
 const React = require('react');
 const CSS = require('react-css-modules');
-const Hammer = require('react-hammerjs');
+const {default: AceEditor} = require('react-ace');
 const styles = require('./App.pcss');
-const Module = require('./Module.jsx');
-const Wire = require('./Wire.jsx');
+
+require('brace/mode/c_cpp');
+require('brace/theme/monokai');
 
 class App extends React.Component {
 	constructor() {
@@ -50,32 +51,17 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<Hammer onDoubleTap={this.handleDoubleTap}>
-				<div styleName="app">
-					<div styleName="title">DragonASIC-web</div>
-					{this.state.wires.map((wire) => (
-						<Wire
-							key={wire.uid}
-							mode="absolute"
-							start={wire.start}
-							end={wire.end}
-							isPannig={false}
-						/>
-					))}
-					{this.state.modules.map((module) => (
-						<Module
-							key={module.uid}
-							initialX={module.initialX}
-							initialY={module.initialY}
-							onPan={this.handlePanModule}
-							onKnobMouseEnter={this.handleKnobMouseEnter}
-							onKnobMouseLeave={this.handleKnobMouseLeave}
-							onCreateWire={this.handleCreateWire}
-							activeKnob={this.state.activeKnob}
-						/>
-					))}
+			<div styleName="app">
+				<div styleName="editor-wrap">
+					<AceEditor
+						mode="c_cpp"
+						theme="monokai"
+						name="editor"
+						width="100%"
+						height="100%"
+					/>
 				</div>
-			</Hammer>
+			</div>
 		);
 	}
 }
