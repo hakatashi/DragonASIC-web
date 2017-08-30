@@ -52,7 +52,10 @@ class App extends React.Component {
 	render() {
 		return (
 			<div styleName="app">
-				<div styleName="editor-wrap">
+				<div styleName="info-area">
+					<div styleName="head">Serial Output</div>
+				</div>
+				<div styleName="editor-area">
 					<AceEditor
 						mode="c_cpp"
 						theme="monokai"
@@ -60,6 +63,9 @@ class App extends React.Component {
 						width="100%"
 						height="100%"
 					/>
+				</div>
+				<div styleName="sensor-area">
+					<div styleName="head">Sensors</div>
 				</div>
 			</div>
 		);
