@@ -1,6 +1,7 @@
 const React = require('react');
 const CSS = require('react-css-modules');
 const {default: AceEditor} = require('react-ace');
+const {stripIndent} = require('common-tags');
 const InfoArea = require('./InfoArea.jsx');
 const styles = require('./App.pcss');
 
@@ -48,6 +49,14 @@ class App extends React.Component {
 						name="editor"
 						width="100%"
 						height="100%"
+						value={stripIndent`
+							#include <stdio.h>
+
+							int main(int argc, char *argv[]) {
+								printf("Hello, World!\\n");
+								return 0;
+							}
+						`}
 					/>
 				</div>
 				<div styleName="sensor-area">
