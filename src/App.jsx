@@ -1,6 +1,7 @@
 const React = require('react');
 const CSS = require('react-css-modules');
 const {default: AceEditor} = require('react-ace');
+const InfoArea = require('./InfoArea.jsx');
 const styles = require('./App.pcss');
 
 require('brace/mode/c_cpp');
@@ -13,7 +14,6 @@ class App extends React.Component {
 		this.state = {
 			modules: [],
 			wires: [],
-			activeKnob: null,
 		};
 	}
 
@@ -24,18 +24,6 @@ class App extends React.Component {
 				initialX: event.center.x,
 				initialY: event.center.y,
 			}]),
-		});
-	}
-
-	handleKnobMouseEnter = (knob) => {
-		this.setState({
-			activeKnob: knob,
-		});
-	}
-
-	handleKnobMouseLeave = () => {
-		this.setState({
-			activeKnob: null,
 		});
 	}
 
@@ -52,9 +40,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div styleName="app">
-				<div styleName="info-area">
-					<div styleName="head">Serial Output</div>
-				</div>
+				<InfoArea/>
 				<div styleName="editor-area">
 					<AceEditor
 						mode="c_cpp"
@@ -72,4 +58,4 @@ class App extends React.Component {
 	}
 }
 
-module.exports = CSS(App, styles, {allowMultiple: true});
+module.exports = CSS(App, styles, {allowMultiple: true, handleNotFoundStyleName: 'log'});
