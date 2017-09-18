@@ -48,9 +48,13 @@
 
 		width: 0;
 		height: 0;
-		border-top: white solid $size;
-		border-left: transparent solid $size;
-		border-right: transparent solid $size;
+		border-left: white solid $size;
+		border-top: transparent solid $size;
+		border-bottom: transparent solid $size;
+	}
+
+	&.active::before {
+		transform: translateY(-50%) rotate(90deg);
 	}
 }
 
@@ -67,6 +71,7 @@
 	input {
 		flex: 1 0 0;
 		min-width: 0;
+		width: 0;
 		background-color: #3B3B3B;
 		color: white;
 		border: none;

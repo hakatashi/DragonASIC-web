@@ -46,6 +46,7 @@ class App extends React.Component {
 					<AceEditor
 						mode="c_cpp"
 						theme="monokai"
+						keyboardHandler="vim"
 						name="editor"
 						width="100%"
 						height="100%"
