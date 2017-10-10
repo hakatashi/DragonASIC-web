@@ -8,7 +8,4 @@
 [greenkeeper-url]: https://greenkeeper.io/
 [greenkeeper-image]: https://badges.greenkeeper.io/hakatashi/DragonASIC-web.svg
 
-[未踏2017][mitou]採択プロジェクト[「GUIによるカスタムマイコン設計プラットフォーム」][project]の何か
-
-[mitou]: https://www.ipa.go.jp/jinzai/mitou/2017/
-[project]: https://www.ipa.go.jp/jinzai/mitou/2017/gaiyou_f-1.html
+This project has been moved to [DragonASIC/DragonASIC](https://github.com/DragonASIC/DragonASIC)
