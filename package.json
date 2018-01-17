@@ -24,7 +24,7 @@
     "classnames": "^2.2.5",
     "common-tags": "^1.4.0",
     "concurrently": "^3.4.0",
-    "css-loader": "^0.28.4",
+    "css-loader": "^0.28.9",
     "eslint": "^4.1.0",
     "eslint-plugin-react": "^7.1.0",
     "github-fork-ribbon-css": "^0.2.1",
