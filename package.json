@@ -31,7 +31,7 @@
     "hammerjs": "^2.0.8",
     "normalize.css": "^7.0.0",
     "postcss-flexbugs-fixes": "^3.0.0",
-    "postcss-loader": "^2.0.6",
+    "postcss-loader": "^2.1.0",
     "precss": "^2.0.0",
     "pug-cli": "^1.0.0-alpha6",
     "react": "^15.6.1",
